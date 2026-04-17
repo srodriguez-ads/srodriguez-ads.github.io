@@ -10,6 +10,11 @@
 <h2>Tabla editable conectada a Google Sheets</h2>
 
 <input type="text" id="buscador" placeholder="Buscar..." onkeyup="filtrarTabla()">
+<input type="text" id="filtro-tarea" placeholder="Filtrar por tarea" onkeyup="aplicarFiltros()">
+
+<input type="text" id="filtro-responsable" placeholder="Filtrar por responsable" onkeyup="aplicarFiltros()">
+
+<button onclick="limpiarFiltros()">❌ Limpiar filtros</button>
 
 <button onclick="guardar()">💾 Guardar cambios</button>
 
@@ -63,6 +68,28 @@ function guardar() {
       String(valorCelda).toLowerCase().includes(valor)
     );
   });
+}
+</script>
+
+<script>
+
+function aplicarFiltros() {
+  const tarea = document.getElementById("filtro-tarea").value.toLowerCase();
+  const responsable = document.getElementById("filtro-responsable").value.toLowerCase();
+
+  table.setFilter(function(data) {
+
+    const coincideTarea = !tarea || String(data["Nombre tarea"]).toLowerCase().includes(tarea);
+    const coincideResponsable = !responsable || String(data["Responsable"]).toLowerCase().includes(responsable);
+
+    return coincideTarea && coincideResponsable;
+  });
+}
+
+function limpiarFiltros() {
+  document.getElementById("filtro-tarea").value = "";
+  document.getElementById("filtro-responsable").value = "";
+  table.clearFilter();
 }
 </script>
 
