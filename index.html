@@ -9,6 +9,8 @@
 
 <h2>Tabla editable conectada a Google Sheets</h2>
 
+<input type="text" id="buscador" placeholder="Buscar..." onkeyup="filtrarTabla()">
+
 <button onclick="guardar()">💾 Guardar cambios</button>
 
 <div id="tabla"></div>
@@ -50,6 +52,18 @@ function guardar() {
   .then(() => alert("Guardado correctamente"));
 }
 
+</script>
+
+<script>
+    function filtrarTabla() {
+  const valor = document.getElementById("buscador").value.toLowerCase();
+
+  table.setFilter(function(data) {
+    return Object.values(data).some(valorCelda =>
+      String(valorCelda).toLowerCase().includes(valor)
+    );
+  });
+}
 </script>
 
 </body>
