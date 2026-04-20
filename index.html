@@ -35,6 +35,18 @@ fetch(API_URL)
   .then(res => res.json())
   .then(data => {
 
+    console.log("DATA REAL:", data);
+
+    if (!Array.isArray(data)) {
+      alert("Error: " + (data.error || "Respuesta inválida"));
+      return;
+    }
+
+    if (data.length === 0) {
+      alert("No hay datos en la hoja");
+      return;
+    }
+
     table = new Tabulator("#tabla", {
       data: data,
       layout: "fitColumns",
@@ -45,6 +57,10 @@ fetch(API_URL)
       })),
     });
 
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Error cargando datos");
   });
 
 function guardar() {
